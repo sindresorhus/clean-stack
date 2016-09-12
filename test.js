@@ -34,3 +34,12 @@ test('directly executed node script', t => {
     at node.js:968:3`;
 	t.is(m(stack), pre);
 });
+
+test('internal child_process', t => {
+	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const stack = `${pre}\n
+    at Module._compile (module.js:409:26)
+    at Object.Module._extensions..js (module.js:416:10)
+    at internal/child_process.js:696:12`;
+	t.is(m(stack), pre);
+});
