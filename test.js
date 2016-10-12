@@ -43,3 +43,12 @@ test('internal child_process', t => {
     at internal/child_process.js:696:12`;
 	t.is(m(stack), pre);
 });
+
+test('on windows', t => {
+	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
+	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)\n
+    at handleMessage (internal\\child_process.js:695:10)\n
+    at Pipe.channel.onread (internal\\child_process.js:440:11)\n
+    at process.emit (events.js:172:7)`;
+	t.is(m(stack), expected);
+});
