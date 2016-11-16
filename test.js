@@ -44,6 +44,14 @@ test('internal child_process', t => {
 	t.is(m(stack), pre);
 });
 
+test('internal next_tick', t => {
+	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const stack = `${pre}\n
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)
+    at process._tickCallback (internal/process/next_tick.js:98:9)`;
+	t.is(m(stack), pre);
+});
+
 test('babel-polyfill', t => {
 	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
 	const stack = `${pre}\n

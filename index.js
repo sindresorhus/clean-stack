@@ -1,7 +1,7 @@
 'use strict';
 
 const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
-const pathRegex = /^(?:(?:(?:node|(?:internal\/|.*node_modules\/babel-polyfill\/.*)?\w+)\.js:\d+:\d+)|native)/;
+const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/babel-polyfill\/.*)?\w+)\.js:\d+:\d+)|native)/;
 
 module.exports = stack => {
 	return stack.replace(/\\/g, '/')
