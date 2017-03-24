@@ -40,7 +40,8 @@ Error: Missing unicorn
 
 ## Related
 
-Check out [stack-utils](https://github.com/tapjs/stack-utils) if you want something more.
+- [extrack-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
+- [stack-utils](https://github.com/tapjs/stack-utils) - Captures and cleans stack traces
 
 
 ## License
