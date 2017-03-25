@@ -1,5 +1,5 @@
 import test from 'ava';
-import m from './';
+import m from '.';
 
 test('default', t => {
 	const pre = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
@@ -60,7 +60,7 @@ test('babel-polyfill', t => {
 	t.is(m(stack), pre);
 });
 
-test('work on Windows', t => {
+test('works on Windows', t => {
 	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
 	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)\n
     at handleMessage (internal\\child_process.js:695:10)\n
