@@ -4,6 +4,8 @@
 
 Removes the mostly unhelpful internal Node.js entries.
 
+Also works in Electron.
+
 
 ## Install
 

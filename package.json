@@ -24,7 +24,8 @@
     "trace",
     "traces",
     "error",
-    "err"
+    "err",
+    "electron"
   ],
   "devDependencies": {
     "ava": "*",

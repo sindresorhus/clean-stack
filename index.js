@@ -12,7 +12,15 @@ module.exports = stack => {
 				return true;
 			}
 
-			return !pathRegex.test(pathMatches[1]);
+			const match = pathMatches[1];
+
+			// Electron
+			if (match.includes('.app/Contents/Resources/electron.asar') ||
+				match.includes('.app/Contents/Resources/default_app.asar')) {
+				return false;
+			}
+
+			return !pathRegex.test(match);
 		})
 		.filter(x => x.trim() !== '')
 		.join('\n');
