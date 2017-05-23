@@ -53,6 +53,15 @@ test('internal next_tick', t => {
 	t.is(m(stack), pre);
 });
 
+test('internal various modules', t => {
+	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const stack = `${pre}\n
+    at emitOne (events.js:101:20)
+    at process.emit (events.js:188:7)
+    at process._fatalException (bootstrap_node.js:300:26)`;
+	t.is(m(stack), pre);
+});
+
 test('babel-polyfill', t => {
 	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
 	const stack = `${pre}\n
