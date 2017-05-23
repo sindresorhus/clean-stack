@@ -1,3 +1,4 @@
+import os from 'os';
 import test from 'ava';
 import m from '.';
 
@@ -111,7 +112,7 @@ test('works with Electron stack traces - built app', t => {
 
 test('pretty option', t => {
 	const stack = `Error: foo\n
-    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)\n
+    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)\n
     at handleMessage (internal/child_process.js:695:10)\n
     at Pipe.channel.onread (internal/child_process.js:440:11)\n
     at process.emit (events.js:172:7)`;
