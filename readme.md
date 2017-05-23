@@ -40,6 +40,30 @@ Error: Missing unicorn
 ```
 
 
+## API
+
+### cleanStack(stack, [options])
+
+#### stack
+
+Type: `string`
+
+The `stack` property of an `Error`.
+
+#### options
+
+Type: `Object`
+
+##### pretty
+
+Type: `boolean`<br>
+Default: `false`
+
+Prettify the file paths in the stack:
+
+`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
+
+
 ## Related
 
 - [extrack-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
