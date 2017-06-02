@@ -6,7 +6,7 @@ const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/babel-poly
 const homeDir = os.homedir();
 
 module.exports = (stack, options) => {
-	options = Object.assign({pretty: false}, options);
+	options = Object.assign({pretty: false, keepEmptyLines: false}, options);
 
 	return stack.replace(/\\/g, '/')
 		.split('\n')
@@ -26,7 +26,12 @@ module.exports = (stack, options) => {
 
 			return !pathRegex.test(match);
 		})
-		.filter(x => x.trim() !== '')
+		.filter(x => {
+			if (options.keepEmptyLines) {
+				return true;
+			}
+			return x.trim() !== '';
+		})
 		.map(x => {
 			if (options.pretty) {
 				return x.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
