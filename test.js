@@ -128,3 +128,20 @@ test('pretty option', t => {
 	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.js:6:15)';
 	t.is(m(stack, {pretty: true}), expected);
 });
+
+test('keepEmptyLines option', t => {
+	const stack = `\nError: foo
+
+    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)
+    at handleMessage (internal/child_process.js:695:10)
+    at Pipe.channel.onread (internal/child_process.js:440:11)
+    at process.emit (events.js:172:7)
+
+`;
+	const expected = `\nError: foo
+
+    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)
+
+`;
+	t.is(m(stack, {keepEmptyLines: true}), expected);
+});

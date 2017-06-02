@@ -63,6 +63,13 @@ Prettify the file paths in the stack:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 
+##### keepEmptyLines
+
+Type: `boolean`<br>
+Default: `false`
+
+Don't remove existent blank lines
+
 
 ## Related
 
