@@ -2,7 +2,7 @@
 const os = require('os');
 
 const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
-const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/babel-polyfill\/.*)?\w+)\.js:\d+:\d+)|native)/;
+const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)\.js:\d+:\d+)|native)/;
 const homeDir = os.homedir();
 
 module.exports = (stack, options) => {

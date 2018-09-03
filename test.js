@@ -70,6 +70,14 @@ test('babel-polyfill', t => {
 	t.is(m(stack), pre);
 });
 
+test('pirates', t => {
+	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const stack = `${pre}\n
+    at Module._compile (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:83:24)
+    at Object.newLoader [as .js] (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:88:7)`;
+	t.is(m(stack), pre);
+});
+
 test('works on Windows', t => {
 	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
 	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)\n
