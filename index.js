@@ -10,8 +10,8 @@ module.exports = (stack, options) => {
 
 	return stack.replace(/\\/g, '/')
 		.split('\n')
-		.filter(x => {
-			const pathMatches = x.match(extractPathRegex);
+		.filter(line => {
+			const pathMatches = line.match(extractPathRegex);
 			if (pathMatches === null || !pathMatches[1]) {
 				return true;
 			}
@@ -19,20 +19,22 @@ module.exports = (stack, options) => {
 			const match = pathMatches[1];
 
 			// Electron
-			if (match.includes('.app/Contents/Resources/electron.asar') ||
-				match.includes('.app/Contents/Resources/default_app.asar')) {
+			if (
+				match.includes('.app/Contents/Resources/electron.asar') ||
+				match.includes('.app/Contents/Resources/default_app.asar')
+			) {
 				return false;
 			}
 
 			return !pathRegex.test(match);
 		})
-		.filter(x => x.trim() !== '')
-		.map(x => {
+		.filter(line => line.trim() !== '')
+		.map(line => {
 			if (options.pretty) {
-				return x.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
+				return line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
 			}
 
-			return x;
+			return line;
 		})
 		.join('\n');
 };

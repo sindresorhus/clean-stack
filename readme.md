@@ -10,7 +10,7 @@ Also works in Electron.
 ## Install
 
 ```
-$ npm install --save clean-stack
+$ npm install clean-stack
 ```
 
 
@@ -18,6 +18,7 @@ $ npm install --save clean-stack
 
 ```js
 const cleanStack = require('clean-stack');
+
 const error = new Error('Missing unicorn');
 
 console.log(error.stack);
