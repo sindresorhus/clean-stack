@@ -4,3 +4,10 @@ node_js:
   - '10'
   - '8'
   - '6'
+
+before_install:
+  - 
+
+script:
+  - npm run test
+  - npm run browser-test

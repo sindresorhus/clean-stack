@@ -13,7 +13,10 @@
 		"node": ">=6"
 	},
 	"scripts": {
-		"test": "xo && ava && tsd"
+		"test": "xo && ava && tsd",
+		"browser-test:setup": "npm install -g testcafe@1.3",
+		"browser-test:run":" testcafe --app-init-timeout 4000 --selector-timeout 2000 --assertion-timeout 2000 chrome browser-test/browser-test.js",
+		"browser-test": "npm run browser-test:setup && npm run browser-test:run"
 	},
 	"files": [
 		"index.js",
