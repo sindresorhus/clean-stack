@@ -14,7 +14,7 @@
 	},
 	"scripts": {
 		"test": "xo && ava && tsd",
-		"browser-test": " testcafe --app-init-timeout 4000 --selector-timeout 2000 --assertion-timeout 2000 chrome browser-test/browser-test.js"
+		"browser-test": " testcafe --app-init-timeout 4000 --selector-timeout 2000 --assertion-timeout 2000 firefox browser-test/browser-test.js"
 	},
 	"files": [
 		"index.js",

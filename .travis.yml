@@ -1,9 +1,26 @@
 language: node_js
+dist: trusty
+sudo: required
 node_js:
   - '12'
   - '10'
   - '8'
   - '6'
+
+
+addons:
+  firefox: latest
+  apt:
+      packages:
+      - fluxbox
+
+
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+  - fluxbox >/dev/null 2>&1 &
 
 script:
   - npm run test
