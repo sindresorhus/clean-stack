@@ -1,7 +1,6 @@
 'use strict';
 let homeDir = '';
-const isNode = new Function('try {return this===global;}catch(e){return false;}');
-if (isNode()) {
+if (typeof process !== 'undefined') {
 	const os = require('os');
 	homeDir = os.homedir();
 }
