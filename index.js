@@ -1,9 +1,13 @@
 'use strict';
-const os = require('os');
+let homeDir = '';
+const isNode = new Function('try {return this===global;}catch(e){return false;}');
+if (isNode()) {
+	const os = require('os');
+	homeDir = os.homedir();
+}
 
 const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)\.js:\d+:\d+)|native)/;
-const homeDir = os.homedir();
 
 module.exports = (stack, options) => {
 	options = Object.assign({pretty: false}, options);
