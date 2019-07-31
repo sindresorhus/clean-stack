@@ -4,9 +4,6 @@
 	"description": "Clean up error stack traces",
 	"license": "MIT",
 	"repository": "sindresorhus/clean-stack",
-	"browser": {
-		"os": false
-	},
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
@@ -35,5 +32,8 @@
 		"ava": "^1.4.1",
 		"tsd": "^0.7.2",
 		"xo": "^0.24.0"
+	},
+	"browser": {
+		"os": false
 	}
 }
