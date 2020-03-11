@@ -40,7 +40,7 @@ console.log(cleanStack(error.stack));
 ```
 */
 declare function cleanStack(
-	stack: string,
+	stack?: string,
 	options?: cleanStack.Options
 ): string;
 
