@@ -46,4 +46,4 @@ console.log(cleanStack(error.stack));
 //     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
 ```
 */
-export default function cleanStack(stack: string, options?: Options): string;
+export default function cleanStack<T>(stack: T, options?: Options): T extends string ? string : undefined;

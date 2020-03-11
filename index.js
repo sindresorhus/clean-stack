@@ -8,6 +8,10 @@ const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath)}`, 'g');
 
+	if (typeof stack !== 'string') {
+		return undefined;
+	}
+
 	return stack.replace(/\\/g, '/')
 		.split('\n')
 		.filter(line => {

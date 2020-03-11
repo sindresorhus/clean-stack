@@ -187,3 +187,15 @@ test('new stack format on Node.js 15 and later', t => {
     at Object.<anonymous> (/home/fengkx/projects/test/stack.js:14:1)`;
 	t.is(cleanStack(stack), expected);
 });
+
+test('handle undefined', t => {
+	const stack = undefined;
+	const expected = undefined;
+	t.is(cleanStack(stack, {pretty: true}), expected);
+});
+
+test('handle not string', t => {
+	const stack = {};
+	const expected = undefined;
+	t.is(cleanStack(stack, {pretty: true}), expected);
+});
