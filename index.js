@@ -7,7 +7,7 @@ const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 
 module.exports = (stack, options) => {
 	if (!stack || typeof stack !== 'string') {
-		return void(0);
+		return undefined;
 	}
 
 	options = Object.assign({pretty: false}, options);
