@@ -136,3 +136,15 @@ test('pretty option', t => {
 	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.js:6:15)';
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
+
+test('handle undefine', t => {
+	const stack = undefined;
+	const expected = undefined;
+	t.is(cleanStack(stack, {pretty: true}), expected);
+});
+
+test('handle not string', t => {
+	const stack = {};
+	const expected = undefined;
+	t.is(cleanStack(stack, {pretty: true}), expected);
+});

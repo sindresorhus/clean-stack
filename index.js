@@ -6,6 +6,10 @@ const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/(?:babel-p
 const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 
 module.exports = (stack, options) => {
+	if (!stack || typeof stack !== 'string') {
+		return void(0);
+	}
+
 	options = Object.assign({pretty: false}, options);
 
 	return stack.replace(/\\/g, '/')
