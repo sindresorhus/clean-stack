@@ -38,6 +38,12 @@ console.log(cleanStack(error.stack));
 Error: Missing unicorn
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
 */
+
+// If stack is undefiend or not a string
+const errorWithUndefiendStack = new Error();
+delete errorWithUndefiendStack.stack;
+
+cleanStack(error.stack) // undefined;
 ```
 
 
@@ -47,9 +53,9 @@ Error: Missing unicorn
 
 #### stack
 
-Type: `string`
+Type: `string | undefined`
 
-The `stack` property of an `Error`.
+The `stack` property of an [`Error`](https://github.com/microsoft/TypeScript/blob/master/lib/lib.es5.d.ts#L972).
 
 #### options
 
