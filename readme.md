@@ -67,7 +67,7 @@ Prettify the file paths in the stack:
 
 ## Related
 
-- [extrack-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
+- [extract-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
 - [stack-utils](https://github.com/tapjs/stack-utils) - Captures and cleans stack traces
 
 
