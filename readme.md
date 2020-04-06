@@ -55,7 +55,7 @@ cleanStack(error.stack) // undefined;
 
 Type: `string | undefined`
 
-The `stack` property of an [`Error`](https://github.com/microsoft/TypeScript/blob/master/lib/lib.es5.d.ts#L972).
+The `stack` property of an [`Error`](https://github.com/microsoft/TypeScript/blob/eac073894b172ec719ca7f28b0b94fc6e6e7d4cf/lib/lib.es5.d.ts#L972-L976).
 
 #### options
 
