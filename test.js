@@ -136,3 +136,18 @@ test('pretty option', t => {
 	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.js:6:15)';
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
+
+test('basePath option', t => {
+	const basePath = '/Users/foo/dev/';
+	const stack = `Error: with basePath
+    at Object.<anonymous> (/Users/foo/dev/node_modules/foo/bar.js:1:14)
+    at Module._compile (internal/modules/cjs/loader.js:1200:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)
+    at Module.load (internal/modules/cjs/loader.js:1049:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:937:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
+    at internal/main/run_main_module.js:17:47`;
+
+	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)';
+	t.is(cleanStack(stack, {basePath}), expected);
+});

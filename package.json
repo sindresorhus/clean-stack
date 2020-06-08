@@ -28,6 +28,9 @@
 		"err",
 		"electron"
 	],
+	"dependencies": {
+		"escape-string-regexp": "4.0.0"
+	},
 	"devDependencies": {
 		"ava": "^1.4.1",
 		"tsd": "^0.7.2",

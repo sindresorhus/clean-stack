@@ -64,6 +64,17 @@ Prettify the file paths in the stack:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 
+##### basePath
+
+Type: `string`<br>
+Default: `undefined`
+
+Remove all occurences of `basePath`. Useful for removing absolute paths.
+
+Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
+
+`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
+
 
 ## Related
 
