@@ -36,12 +36,12 @@ module.exports = (stack, options) => {
 		})
 		.filter(line => line.trim() !== '')
 		.map(line => {
-			if (options.pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
-			}
-
 			if (basePathRe) {
 				line = line.replace(basePathRe, '');
+			}
+
+			if (options.pretty) {
+				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
 			}
 
 			return line;
