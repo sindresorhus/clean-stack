@@ -8,6 +8,7 @@ declare namespace cleanStack {
 		@default false
 		*/
 		readonly pretty?: boolean;
+		readonly basePath?: string;
 	}
 }
 
