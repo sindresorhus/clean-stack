@@ -127,7 +127,7 @@ test('works with Electron stack traces - built app', t => {
 	t.is(cleanStack(stack), expected);
 });
 
-test('pretty option', t => {
+test('`pretty` option', t => {
 	const stack = `Error: foo\n
     at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)\n
     at handleMessage (internal/child_process.js:695:10)\n
@@ -141,6 +141,7 @@ test('`basePath` option', t => {
 	const basePath = '/Users/foo/dev/';
 	const stack = `Error: with basePath
     at Object.<anonymous> (/Users/foo/dev/node_modules/foo/bar.js:1:14)
+    at /Users/foo/dev/node_modules/foo/baz.js:1:14
     at Module._compile (internal/modules/cjs/loader.js:1200:30)
     at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)
     at Module.load (internal/modules/cjs/loader.js:1049:32)
@@ -148,7 +149,7 @@ test('`basePath` option', t => {
     at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
     at internal/main/run_main_module.js:17:47`;
 
-	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)';
+	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)\n    at node_modules/foo/baz.js:1:14';
 	t.is(cleanStack(stack, {basePath}), expected);
 });
 

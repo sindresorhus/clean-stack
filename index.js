@@ -11,7 +11,7 @@ module.exports = (stack, options) => {
 
 	let basePathRe;
 	if (options.basePath) {
-		basePathRe = new RegExp(escapeStringRegexp(options.basePath), 'g');
+		basePathRe = new RegExp(`(at | \\()${escapeStringRegexp(options.basePath)}`, 'g');
 	}
 
 	return stack.replace(/\\/g, '/')
@@ -37,7 +37,7 @@ module.exports = (stack, options) => {
 		.filter(line => line.trim() !== '')
 		.map(line => {
 			if (basePathRe) {
-				line = line.replace(basePathRe, '');
+				line = line.replace(basePathRe, (_, p1) => p1);
 			}
 
 			if (options.pretty) {
