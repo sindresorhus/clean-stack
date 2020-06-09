@@ -152,7 +152,7 @@ test('basePath option', t => {
 	t.is(cleanStack(stack, {basePath}), expected);
 });
 
-test('basePath should have precedence over pretty', t => {
+test('`basePath` option should have precedence over `pretty` option', t => {
 	const basePath = `${os.homedir()}/dev/`;
 	const stack = `Error: with basePath
     at Object.<anonymous> (${os.homedir()}/dev/node_modules/foo/bar.js:1:14)
