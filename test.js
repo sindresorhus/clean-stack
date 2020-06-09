@@ -137,7 +137,7 @@ test('pretty option', t => {
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
 
-test('basePath option', t => {
+test('`basePath` option', t => {
 	const basePath = '/Users/foo/dev/';
 	const stack = `Error: with basePath
     at Object.<anonymous> (/Users/foo/dev/node_modules/foo/bar.js:1:14)
