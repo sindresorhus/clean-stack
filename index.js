@@ -7,7 +7,7 @@ const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/(?:babel-p
 const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 
 module.exports = (stack, options) => {
-	options = Object.assign({pretty: false, basePath: undefined}, options);
+	options = Object.assign({pretty: false}, options);
 
 	const basePathRegex = options.basePath && new RegExp(`(at | \\()${escapeStringRegexp(options.basePath)}`, 'g');
 
