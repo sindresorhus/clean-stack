@@ -34,7 +34,7 @@ module.exports = (stack, options) => {
 		.filter(line => line.trim() !== '')
 		.map(line => {
 			if (basePathRegex) {
-				line = line.replace(basePathRegex, (_, p1) => p1);
+				line = line.replace(basePathRegex, '$1');
 			}
 
 			if (options.pretty) {
