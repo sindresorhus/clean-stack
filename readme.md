@@ -66,8 +66,7 @@ Prettify the file paths in the stack:
 
 ##### basePath
 
-Type: `string`<br>
-Default: `undefined`
+Type: `string?`
 
 Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
 
