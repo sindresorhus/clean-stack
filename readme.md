@@ -69,7 +69,7 @@ Prettify the file paths in the stack:
 Type: `string`<br>
 Default: `undefined`
 
-Removes `basePath` from file paths, effectively turning absolute paths into relative ones.
+Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
 
 Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
 
