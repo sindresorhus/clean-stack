@@ -9,10 +9,7 @@ const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 module.exports = (stack, options) => {
 	options = Object.assign({pretty: false, basePath: undefined}, options);
 
-	let basePathRe;
-	if (options.basePath) {
-		basePathRe = new RegExp(`(at | \\()${escapeStringRegexp(options.basePath)}`, 'g');
-	}
+	const basePathRegex = options.basePath && new RegExp(`(at | \\()${escapeStringRegexp(options.basePath)}`, 'g');
 
 	return stack.replace(/\\/g, '/')
 		.split('\n')
