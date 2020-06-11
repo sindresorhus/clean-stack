@@ -33,8 +33,8 @@ module.exports = (stack, options) => {
 		})
 		.filter(line => line.trim() !== '')
 		.map(line => {
-			if (basePathRe) {
-				line = line.replace(basePathRe, (_, p1) => p1);
+			if (basePathRegex) {
+				line = line.replace(basePathRegex, (_, p1) => p1);
 			}
 
 			if (options.pretty) {

@@ -9,13 +9,11 @@ declare namespace cleanStack {
 		*/
 		readonly pretty?: boolean;
 		/**
-		Removes `basePath` from file paths, effectively turning absolute paths into relative ones.
+		Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
 
 		Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
 
 		`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
-
-		@default undefined
 		*/
 		readonly basePath?: string;
 	}
