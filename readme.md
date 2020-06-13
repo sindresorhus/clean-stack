@@ -1,4 +1,4 @@
-# clean-stack [![Build Status](https://travis-ci.org/sindresorhus/clean-stack.svg?branch=master)](https://travis-ci.org/sindresorhus/clean-stack)
+# clean-stack [![Build Status](https://travis-ci.com/sindresorhus/clean-stack.svg?branch=master)](https://travis-ci.com/github/sindresorhus/clean-stack)
 
 > Clean up error stack traces
 
@@ -6,13 +6,11 @@ Removes the mostly unhelpful internal Node.js entries.
 
 Also works in Electron.
 
-
 ## Install
 
 ```
 $ npm install clean-stack
 ```
-
 
 ## Usage
 
@@ -40,10 +38,9 @@ Error: Missing unicorn
 */
 ```
 
-
 ## API
 
-### cleanStack(stack, [options])
+### cleanStack(stack, options?)
 
 #### stack
 
@@ -53,11 +50,11 @@ The `stack` property of an `Error`.
 
 #### options
 
-Type: `Object`
+Type: `object`
 
 ##### pretty
 
-Type: `boolean`<br>
+Type: `boolean`\
 Default: `false`
 
 Prettify the file paths in the stack:
@@ -74,13 +71,7 @@ Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
-
 ## Related
 
 - [extract-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
 - [stack-utils](https://github.com/tapjs/stack-utils) - Captures and cleans stack traces
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

@@ -2,14 +2,12 @@
 const os = require('os');
 const escapeStringRegexp = require('escape-string-regexp');
 
-const extractPathRegex = /\s+at.*(?:\(|\s)(.*)\)?/;
+const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|(?:internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)\.js:\d+:\d+)|native)/;
 const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 
-module.exports = (stack, options) => {
-	options = Object.assign({pretty: false}, options);
-
-	const basePathRegex = options.basePath && new RegExp(`(at | \\()${escapeStringRegexp(options.basePath)}`, 'g');
+module.exports = (stack, {pretty = false, basePath} = {}) => {
+	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath)}`, 'g');
 
 	return stack.replace(/\\/g, '/')
 		.split('\n')
@@ -37,7 +35,7 @@ module.exports = (stack, options) => {
 				line = line.replace(basePathRegex, '$1');
 			}
 
-			if (options.pretty) {
+			if (pretty) {
 				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
 			}
 

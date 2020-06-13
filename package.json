@@ -4,13 +4,14 @@
 	"description": "Clean up error stack traces",
 	"license": "MIT",
 	"repository": "sindresorhus/clean-stack",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=6"
+		"node": ">=10"
 	},
 	"scripts": {
 		"test": "xo && ava && tsd"
@@ -25,16 +26,15 @@
 		"trace",
 		"traces",
 		"error",
-		"err",
 		"electron"
 	],
 	"dependencies": {
 		"escape-string-regexp": "4.0.0"
 	},
 	"devDependencies": {
-		"ava": "^1.4.1",
-		"tsd": "^0.7.2",
-		"xo": "^0.24.0"
+		"ava": "^2.4.0",
+		"tsd": "^0.11.0",
+		"xo": "^0.32.0"
 	},
 	"browser": {
 		"os": false

@@ -8,6 +8,7 @@ declare namespace cleanStack {
 		@default false
 		*/
 		readonly pretty?: boolean;
+
 		/**
 		Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
 
