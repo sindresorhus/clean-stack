@@ -167,3 +167,21 @@ test('`basePath` option should have precedence over `pretty` option', t => {
 	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)';
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
+
+test('new stack format on Node.js>=15', t => {
+	const stack = `Error
+    at B (/home/fengkx/projects/test/stack.js:5:19)
+    at A (/home/fengkx/projects/test/stack.js:7:9)
+    at Object.<anonymous> (/home/fengkx/projects/test/stack.js:14:1)
+    at Module._compile (node:internal/modules/cjs/loader:1099:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1131:10)
+    at Module.load (node:internal/modules/cjs/loader:967:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:807:14)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)
+    at node:internal/main/run_main_module:17:47`;
+	const expected = `Error
+    at B (/home/fengkx/projects/test/stack.js:5:19)
+    at A (/home/fengkx/projects/test/stack.js:7:9)
+    at Object.<anonymous> (/home/fengkx/projects/test/stack.js:14:1)`;
+	t.is(cleanStack(stack), expected);
+});
