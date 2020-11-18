@@ -168,7 +168,7 @@ test('`basePath` option should have precedence over `pretty` option', t => {
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('new stack format on Node.js>=15', t => {
+test('new stack format on Node.js 15 and later', t => {
 	const stack = `Error
     at B (/home/fengkx/projects/test/stack.js:5:19)
     at A (/home/fengkx/projects/test/stack.js:7:9)
