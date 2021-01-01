@@ -1,4 +1,4 @@
-# clean-stack [![Build Status](https://travis-ci.com/sindresorhus/clean-stack.svg?branch=master)](https://travis-ci.com/github/sindresorhus/clean-stack)
+# clean-stack
 
 > Clean up error stack traces
 
