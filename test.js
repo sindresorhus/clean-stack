@@ -1,6 +1,6 @@
 import os from 'os';
 import test from 'ava';
-import cleanStack from '.';
+import cleanStack from './index.js';
 
 test('default', t => {
 	const pre = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';

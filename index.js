@@ -1,12 +1,11 @@
-'use strict';
-const os = require('os');
-const escapeStringRegexp = require('escape-string-regexp');
+import os from 'os';
+import escapeStringRegexp from 'escape-string-regexp';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
 const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
 
-module.exports = (stack, {pretty = false, basePath} = {}) => {
+export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath)}`, 'g');
 
 	return stack.replace(/\\/g, '/')
@@ -42,4 +41,4 @@ module.exports = (stack, {pretty = false, basePath} = {}) => {
 			return line;
 		})
 		.join('\n');
-};
+}

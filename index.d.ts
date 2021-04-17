@@ -1,23 +1,21 @@
-declare namespace cleanStack {
-	interface Options {
-		/**
-		Prettify the file paths in the stack:
+export interface Options {
+	/**
+	Prettify the file paths in the stack:
 
-		`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
+	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 
-		@default false
-		*/
-		readonly pretty?: boolean;
+	@default false
+	*/
+	readonly pretty?: boolean;
 
-		/**
-		Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
+	/**
+	Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
 
-		Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
+	Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
 
-		`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
-		*/
-		readonly basePath?: string;
-	}
+	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
+	*/
+	readonly basePath?: string;
 }
 
 /**
@@ -27,7 +25,7 @@ Clean up error stack traces. Removes the mostly unhelpful internal Node.js entri
 
 @example
 ```
-import cleanStack = require('clean-stack');
+import cleanStack from 'clean-stack';
 
 const error = new Error('Missing unicorn');
 
@@ -48,9 +46,4 @@ console.log(cleanStack(error.stack));
 //     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
 ```
 */
-declare function cleanStack(
-	stack: string,
-	options?: cleanStack.Options
-): string;
-
-export = cleanStack;
+export default function cleanStack(stack: string, options?: Options): string;

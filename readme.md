@@ -15,7 +15,7 @@ $ npm install clean-stack
 ## Usage
 
 ```js
-const cleanStack = require('clean-stack');
+import cleanStack from 'clean-stack';
 
 const error = new Error('Missing unicorn');
 
