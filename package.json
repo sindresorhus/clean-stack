@@ -1,6 +1,6 @@
 {
 	"name": "clean-stack",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"description": "Clean up error stack traces",
 	"license": "MIT",
 	"repository": "sindresorhus/clean-stack",
