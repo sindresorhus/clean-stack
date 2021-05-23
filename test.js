@@ -193,9 +193,3 @@ test('handle undefined', t => {
 	const expected = undefined;
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
-
-test('handle not string', t => {
-	const stack = {};
-	const expected = undefined;
-	t.is(cleanStack(stack, {pretty: true}), expected);
-});

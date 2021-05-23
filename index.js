@@ -3,10 +3,10 @@ import escapeStringRegexp from 'escape-string-regexp';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
-const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir();
+const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir().replace(/\\/g, '/');
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
-	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath)}`, 'g');
+	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath.replace(/\\/g, '/'))}`, 'g');
 
 	if (typeof stack !== 'string') {
 		return undefined;
