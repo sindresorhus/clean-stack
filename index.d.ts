@@ -22,6 +22,7 @@ export interface Options {
 Clean up error stack traces. Removes the mostly unhelpful internal Node.js entries.
 
 @param stack - The `stack` property of an `Error`.
+@returns The cleaned stack or `undefined` if the given `stack` is `undefined`.
 
 @example
 ```
