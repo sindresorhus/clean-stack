@@ -22,6 +22,7 @@ export interface Options {
 Clean up error stack traces. Removes the mostly unhelpful internal Node.js entries.
 
 @param stack - The `stack` property of an `Error`.
+@returns The cleaned stack or `undefined` if the given `stack` is `undefined`.
 
 @example
 ```
@@ -46,4 +47,4 @@ console.log(cleanStack(error.stack));
 //     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
 ```
 */
-export default function cleanStack(stack: string, options?: Options): string;
+export default function cleanStack<T extends string | undefined>(stack: T, options?: Options): T;

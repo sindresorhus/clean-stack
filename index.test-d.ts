@@ -7,4 +7,6 @@ if (error.stack) {
 	expectType<string>(cleanStack(error.stack));
 	expectType<string>(cleanStack(error.stack, {pretty: true}));
 	expectType<string>(cleanStack(error.stack, {basePath: 'foo'}));
+	// eslint-disable-next-line @typescript-eslint/no-confusing-void-expression
+	expectType<undefined>(cleanStack(undefined));
 }
