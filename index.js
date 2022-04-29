@@ -26,8 +26,8 @@ export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 			if (
 				match.includes('.app/Contents/Resources/electron.asar') ||
 				match.includes('.app/Contents/Resources/default_app.asar') ||
-				match.includes("node_modules/electron/dist/resources/electron.asar") ||
-				match.includes("node_modules/electron/dist/resources/default_app.asar")
+				match.includes('node_modules/electron/dist/resources/electron.asar') ||
+				match.includes('node_modules/electron/dist/resources/default_app.asar')
 			) {
 				return false;
 			}
