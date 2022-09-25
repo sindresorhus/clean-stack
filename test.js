@@ -3,18 +3,20 @@ import test from 'ava';
 import cleanStack from './index.js';
 
 test('default', t => {
-	const pre = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
+	const pre = `Error: foo
+    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
 	const stack = `${pre}\n
-    at MySocket.emit (node:events:365:28)\n
-    at MySocket.emit (node:fs/promises:363:28)\n
-    at handleMessage (internal/child_process.js:695:10)\n
-    at Pipe.channel.onread (internal/child_process.js:440:11)\n
+    at MySocket.emit (node:events:365:28)
+    at MySocket.emit (node:fs/promises:363:28)
+    at handleMessage (internal/child_process.js:695:10)
+    at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
 	t.is(cleanStack(stack), pre);
 });
 
 test('default #2', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
@@ -26,7 +28,8 @@ test('default #2', t => {
 });
 
 test('directly executed node script', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
@@ -39,7 +42,8 @@ test('directly executed node script', t => {
 });
 
 test('internal child_process', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
@@ -48,7 +52,8 @@ test('internal child_process', t => {
 });
 
 test('internal next_tick', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at _combinedTickCallback (internal/process/next_tick.js:67:7)
     at process._tickCallback (internal/process/next_tick.js:98:9)`;
@@ -56,7 +61,8 @@ test('internal next_tick', t => {
 });
 
 test('internal various modules', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at emitOne (events.js:101:20)
     at process.emit (events.js:188:7)
@@ -65,7 +71,8 @@ test('internal various modules', t => {
 });
 
 test('babel-polyfill', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at run (/Users/sindresorhus/dev/clean-stack/node_modules/babel-polyfill/node_modules/core-js/modules/es6.promise.js:87:22)
     at /Users/sindresorhus/dev/clean-stack/node_modules/babel-polyfill/node_modules/core-js/modules/es6.promise.js:100:28`;
@@ -73,7 +80,8 @@ test('babel-polyfill', t => {
 });
 
 test('pirates', t => {
-	const pre = 'Error: foo\n    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)';
+	const pre = `Error: foo
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:83:24)
     at Object.newLoader [as .js] (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:88:7)`;
@@ -81,10 +89,12 @@ test('pirates', t => {
 });
 
 test('works on Windows', t => {
-	const expected = 'Error: foo\n    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)';
-	const stack = `Error: foo\n    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)\n
-    at handleMessage (internal\\child_process.js:695:10)\n
-    at Pipe.channel.onread (internal\\child_process.js:440:11)\n
+	const expected = `Error: foo
+    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
+	const stack = `Error: foo
+    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)
+    at handleMessage (internal\\child_process.js:695:10)
+    at Pipe.channel.onread (internal\\child_process.js:440:11)
     at process.emit (events.js:172:7)`;
 	t.is(cleanStack(stack), expected);
 });
@@ -130,12 +140,13 @@ test('works with Electron stack traces - built app', t => {
 });
 
 test('`pretty` option', t => {
-	const stack = `Error: foo\n
-    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)\n
-    at handleMessage (internal/child_process.js:695:10)\n
-    at Pipe.channel.onread (internal/child_process.js:440:11)\n
+	const stack = `Error: foo
+    at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)
+    at handleMessage (internal/child_process.js:695:10)
+    at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
-	const expected = 'Error: foo\n    at Test.fn (~/dev/clean-stack/test.js:6:15)';
+	const expected = `Error: foo
+    at Test.fn (~/dev/clean-stack/test.js:6:15)`;
 	t.is(cleanStack(stack, {pretty: true}), expected);
 });
 
@@ -151,7 +162,9 @@ test('`basePath` option', t => {
     at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
     at internal/main/run_main_module.js:17:47`;
 
-	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)\n    at node_modules/foo/baz.js:1:14';
+	const expected = `Error: with basePath
+    at Object.<anonymous> (node_modules/foo/bar.js:1:14)
+    at node_modules/foo/baz.js:1:14`;
 	t.is(cleanStack(stack, {basePath}), expected);
 });
 
@@ -166,7 +179,40 @@ test('`basePath` option should have precedence over `pretty` option', t => {
     at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
     at internal/main/run_main_module.js:17:47`;
 
-	const expected = 'Error: with basePath\n    at Object.<anonymous> (node_modules/foo/bar.js:1:14)';
+	const expected = `Error: with basePath
+    at Object.<anonymous> (node_modules/foo/bar.js:1:14)`;
+	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
+});
+
+test('`basePath` option should ignore trailing slash', t => {
+	const basePath = `${os.homedir()}/dev`;
+	const stack = `Error: with basePath
+    at Object.<anonymous> (${os.homedir()}/dev/node_modules/foo/bar.js:1:14)
+    at Module._compile (internal/modules/cjs/loader.js:1200:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)
+    at Module.load (internal/modules/cjs/loader.js:1049:32)
+    at Function.Module._load (internal/modules/cjs/loader.js:937:14)
+    at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)
+    at internal/main/run_main_module.js:17:47`;
+
+	const expected = `Error: with basePath
+    at Object.<anonymous> (node_modules/foo/bar.js:1:14)`;
+	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
+});
+
+test('`basePath` option should support file: URLs', t => {
+	const basePath = '/dev';
+	const stack = `Error
+    at file:///dev/node_modules/foo/bar.js:1:14
+    at ModuleJob.run (node:internal/modules/esm/module_job:193:25)
+    at async Promise.all (index 0)
+    at async ESMLoader.import (node:internal/modules/esm/loader:527:24)
+    at async loadESM (node:internal/process/esm_loader:91:5)
+    at async handleMainPromise (node:internal/modules/run_main:65:12)`;
+
+	const expected = `Error
+    at node_modules/foo/bar.js:1:14
+    at async Promise.all (index 0)`;
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 

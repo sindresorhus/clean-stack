@@ -6,7 +6,7 @@ const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*no
 const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir().replace(/\\/g, '/');
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
-	const basePathRegex = basePath && new RegExp(`(at | \\()${escapeStringRegexp(basePath.replace(/\\/g, '/'))}`, 'g');
+	const basePathRegex = basePath && new RegExp(`(at | \\()(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
 
 	if (typeof stack !== 'string') {
 		return undefined;
