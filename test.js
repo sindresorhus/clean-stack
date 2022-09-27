@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 import test from 'ava';
 import cleanStack from './index.js';
 

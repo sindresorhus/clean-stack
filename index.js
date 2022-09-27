@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 import escapeStringRegexp from 'escape-string-regexp';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
@@ -24,10 +24,10 @@ export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 
 			// Electron
 			if (
-				match.includes('.app/Contents/Resources/electron.asar') ||
-				match.includes('.app/Contents/Resources/default_app.asar') ||
-				match.includes('node_modules/electron/dist/resources/electron.asar') ||
-				match.includes('node_modules/electron/dist/resources/default_app.asar')
+				match.includes('.app/Contents/Resources/electron.asar')
+				|| match.includes('.app/Contents/Resources/default_app.asar')
+				|| match.includes('node_modules/electron/dist/resources/electron.asar')
+				|| match.includes('node_modules/electron/dist/resources/default_app.asar')
 			) {
 				return false;
 			}

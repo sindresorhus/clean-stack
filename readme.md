@@ -8,8 +8,8 @@ Also works in Electron.
 
 ## Install
 
-```
-$ npm install clean-stack
+```sh
+npm install clean-stack
 ```
 
 ## Usage

@@ -1,4 +1,4 @@
-export interface Options {
+export type Options = {
 	/**
 	Prettify the file paths in the stack:
 
@@ -16,7 +16,7 @@ export interface Options {
 	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 	*/
 	readonly basePath?: string;
-}
+};
 
 /**
 Clean up error stack traces. Removes the mostly unhelpful internal Node.js entries.
