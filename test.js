@@ -200,7 +200,7 @@ test('`basePath` option should ignore trailing slash', t => {
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`basePath` option should support file: URLs', t => {
+test('`basePath` option should support file URLs', t => {
 	const basePath = '/dev';
 	const stack = `Error
     at file:///dev/node_modules/foo/bar.js:1:14
