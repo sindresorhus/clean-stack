@@ -12,6 +12,12 @@
 	},
 	"type": "module",
 	"exports": "./index.js",
+	"imports": {
+		"#home-directory": {
+			"node": "./home-directory.js",
+			"default": "./home-directory-browser.js"
+		}
+	},
 	"types": "./index.d.ts",
 	"engines": {
 		"node": ">=14.16"
@@ -21,7 +27,9 @@
 	},
 	"files": [
 		"index.js",
-		"index.d.ts"
+		"index.d.ts",
+		"home-directory.js",
+		"home-directory-browser.js"
 	],
 	"keywords": [
 		"clean",

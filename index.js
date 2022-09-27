@@ -1,9 +1,8 @@
-import os from 'node:os';
 import escapeStringRegexp from 'escape-string-regexp';
+import homeDirectory from '#home-directory';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
-const homeDir = typeof os.homedir === 'undefined' ? '' : os.homedir().replace(/\\/g, '/');
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 	const basePathRegex = basePath && new RegExp(`(at | \\()(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
@@ -41,7 +40,7 @@ export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 			}
 
 			if (pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDir, '~')));
+				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDirectory, '~')));
 			}
 
 			return line;
