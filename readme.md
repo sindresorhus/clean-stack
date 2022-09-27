@@ -67,9 +67,9 @@ Prettify the file paths in the stack:
 
 Type: `string?`
 
-Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
+Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones. It will also transform absolute file URLs into relative paths.
 
-Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
+Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
