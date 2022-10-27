@@ -234,6 +234,37 @@ test('new stack format on Node.js 15 and later', t => {
 	t.is(cleanStack(stack), expected);
 });
 
+test('at async', t => {
+	const basePath = '/base';
+	const stack = `Error: test
+    at /base/test.js:704:48
+    at /base/node_modules/vitest/dist/chunk-runtime-chain.072b5677.js:2266:13
+    at /base/node_modules/vitest/dist/chunk-runtime-chain.072b5677.js:2141:26
+    at runTest (/base/node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:550:42)
+    at async runSuite (/base/node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:645:15)
+    at async runFiles (/base/node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:779:5)
+    at async startTestsNode (/base/node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:797:3)
+    at async /base/node_modules/vitest/dist/entry.js:94:11
+    at async Module.withEnv (/base/node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:295:5)
+    at async run (/base/node_modules/vitest/dist/entry.js:87:7)
+    at async file:///base/node_modules/tinypool/dist/esm/worker.js:109:20
+    at file:///base/node_modules/tinypool/dist/esm/worker.js:109:20`;
+	const expected = `Error: test
+    at test.js:704:48
+    at node_modules/vitest/dist/chunk-runtime-chain.072b5677.js:2266:13
+    at node_modules/vitest/dist/chunk-runtime-chain.072b5677.js:2141:26
+    at runTest (node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:550:42)
+    at async runSuite (node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:645:15)
+    at async runFiles (node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:779:5)
+    at async startTestsNode (node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:797:3)
+    at async node_modules/vitest/dist/entry.js:94:11
+    at async Module.withEnv (node_modules/vitest/dist/chunk-runtime-error.b043a88d.js:295:5)
+    at async run (node_modules/vitest/dist/entry.js:87:7)
+    at async node_modules/tinypool/dist/esm/worker.js:109:20
+    at node_modules/tinypool/dist/esm/worker.js:109:20`;
+	t.is(cleanStack(stack, {basePath}), expected);
+});
+
 test('handle undefined', t => {
 	const stack = undefined;
 	const expected = undefined;

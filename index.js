@@ -5,7 +5,7 @@ const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
-	const basePathRegex = basePath && new RegExp(`(at | \\()(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
+	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
 
 	if (typeof stack !== 'string') {
 		return undefined;
@@ -36,7 +36,7 @@ export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 		.filter(line => line.trim() !== '')
 		.map(line => {
 			if (basePathRegex) {
-				line = line.replace(basePathRegex, '$1');
+				line = line.replace(basePathRegex, '');
 			}
 
 			if (pretty) {
