@@ -1,3 +1,3 @@
-const homeDirectory = '';
+const getHomeDirectory = () => '';
 
-export default homeDirectory;
+export default getHomeDirectory;

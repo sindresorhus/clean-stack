@@ -1,5 +1,7 @@
 import os from 'node:os';
 import test from 'ava';
+import getHomeDirectoryNode from './home-directory.js';
+import getHomeDirectoryBrowser from './home-directory-browser.js';
 import cleanStack from './index.js';
 
 test('default', t => {
@@ -269,4 +271,9 @@ test('handle undefined', t => {
 	const stack = undefined;
 	const expected = undefined;
 	t.is(cleanStack(stack, {pretty: true}), expected);
+});
+
+test('exports for home-directory files match', t => {
+	t.is(typeof getHomeDirectoryNode, 'function');
+	t.is(typeof getHomeDirectoryBrowser, 'function');
 });

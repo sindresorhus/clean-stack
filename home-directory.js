@@ -1,5 +1,5 @@
 import os from 'node:os';
 
-const homeDirectory = os.homedir().replace(/\\/g, '/');
+const getHomeDirectory = () => os.homedir().replace(/\\/g, '/');
 
-export default homeDirectory;
+export default getHomeDirectory;
