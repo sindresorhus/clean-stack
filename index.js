@@ -6,6 +6,7 @@ const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*no
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
+	const homeDirectory = pretty ? getHomeDirectory() : '';
 
 	if (typeof stack !== 'string') {
 		return undefined;
@@ -40,7 +41,7 @@ export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 			}
 
 			if (pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(getHomeDirectory(), '~')));
+				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDirectory, '~')));
 			}
 
 			return line;
