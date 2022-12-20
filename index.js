@@ -1,11 +1,12 @@
 import escapeStringRegexp from 'escape-string-regexp';
-import homeDirectory from '#home-directory';
+import getHomeDirectory from '#home-directory';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
 
 export default function cleanStack(stack, {pretty = false, basePath} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
+	const homeDirectory = pretty ? getHomeDirectory() : '';
 
 	if (typeof stack !== 'string') {
 		return undefined;
