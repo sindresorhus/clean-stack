@@ -218,6 +218,23 @@ test('`basePath` option should support file URLs', t => {
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
+test('`extraPathRegex` option allows for excluding custom lines', t => {
+	const extraPathRegex = /home-directory/;
+
+	const pre = `Error: foo
+    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
+
+	const stack = `${pre}\n
+		at getHomeDirectory (/Users/sindresorhus/dev/clean-stack/home-directory.js:3:32)
+    at MySocket.emit (node:events:365:28)
+    at MySocket.emit (node:fs/promises:363:28)
+    at handleMessage (internal/child_process.js:695:10)
+    at Pipe.channel.onread (internal/child_process.js:440:11)
+    at process.emit (events.js:172:7)`;
+
+	t.is(cleanStack(stack, {extraPathRegex}), pre);
+});
+
 test('new stack format on Node.js 15 and later', t => {
 	const stack = `Error
     at B (/home/fengkx/projects/test/stack.js:5:19)
