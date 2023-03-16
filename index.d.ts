@@ -18,13 +18,28 @@ export type Options = {
 	readonly basePath?: string;
 
 	/**
-	Remove any paths that return false from this callback.
+	Remove any stack lines where their paths return false from this callback.
 
   Example with `path => /unicorn/.test(path)` as `pathFilterCallback`:
 
-	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → ``
+	```js
+	import cleanStack from 'clean-stack';
+
+	const error = new Error('Missing unicorn');
+
+	console.log(cleanStack(error.stack));
+	// Error: Missing unicorn
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/omit-me.js:1:16)
+
+	const pathFilter = path => /omit-me/.test(path);
+
+	console.log(cleanStack(error.stack, {pathFilter}));
+	// Error: Missing unicorn
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+  ```
 	*/
-	readonly pathFilterCallback?: (path: string) => boolean;
+	readonly pathFilter?: (path: string) => boolean;
 };
 
 /**

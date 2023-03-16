@@ -218,7 +218,7 @@ test('`basePath` option should support file URLs', t => {
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`pathFilterCallback` option allows for excluding custom lines if the callback returns true', t => {
+test('`pathFilter` option allows for excluding custom lines if the callback returns true', t => {
 	const pathFilterCallback = path => !/home-directory/.test(path);
 
 	const pre = `Error: foo
@@ -235,7 +235,7 @@ test('`pathFilterCallback` option allows for excluding custom lines if the callb
 	t.is(cleanStack(stack, {pathFilterCallback}), pre);
 });
 
-test('`pathFilterCallback` option keeps custom lines if the callback returns false', t => {
+test('`pathFilter` option keeps custom lines if the callback returns false', t => {
 	const pathFilterCallback = () => true;
 
 	const pre = `Error: foo

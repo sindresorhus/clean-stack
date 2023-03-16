@@ -4,7 +4,7 @@ import getHomeDirectory from '#home-directory';
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
 
-export default function cleanStack(stack, {pretty = false, basePath, pathFilterCallback} = {}) {
+export default function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
 	const homeDirectory = pretty ? getHomeDirectory() : '';
 
@@ -32,8 +32,8 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilterC
 				return false;
 			}
 
-			return pathFilterCallback
-				? !pathRegex.test(match) && pathFilterCallback(match)
+			return pathFilter
+				? !pathRegex.test(match) && pathFilter(match)
 				: !pathRegex.test(match);
 		})
 		.filter(line => line.trim() !== '')
