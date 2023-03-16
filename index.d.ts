@@ -24,7 +24,7 @@ export type Options = {
 
 	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → ``
 	*/
-	readonly pathFilterCallback?: (string) => boolean;
+	readonly pathFilterCallback?: (path: string) => boolean;
 };
 
 /**
