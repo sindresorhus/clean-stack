@@ -16,6 +16,11 @@ export type Options = {
 	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 	*/
 	readonly basePath?: string;
+
+	/**
+	Remove any paths that match this regexp from the stack.
+	*/
+	readonly extraPathRegex?: RegExp;
 };
 
 /**

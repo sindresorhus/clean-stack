@@ -73,6 +73,12 @@ Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
+##### extraPathRegex
+
+Type: `regexp?`
+
+Remove any paths that match this regexp from the stack.
+
 ## Related
 
 - [extract-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error
