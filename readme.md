@@ -73,11 +73,15 @@ Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
-##### extraPathRegex
+##### pathFilterCallback
 
-Type: `regexp?`
+Type: `(string) => boolean`
 
-Remove any paths that match this regexp from the stack.
+Remove any paths that return false from this callback.
+
+Example with `path => /unicorn/.test(path)` as `pathFilterCallback`:
+
+`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → ``
 
 ## Related
 

@@ -218,8 +218,8 @@ test('`basePath` option should support file URLs', t => {
 	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`extraPathRegex` option allows for excluding custom lines', t => {
-	const extraPathRegex = /home-directory/;
+test('`pathFilterCallback` option allows for excluding custom lines if the callback returns true', t => {
+	const pathFilterCallback = path => !/home-directory/.test(path);
 
 	const pre = `Error: foo
     at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
@@ -232,7 +232,24 @@ test('`extraPathRegex` option allows for excluding custom lines', t => {
     at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
 
-	t.is(cleanStack(stack, {extraPathRegex}), pre);
+	t.is(cleanStack(stack, {pathFilterCallback}), pre);
+});
+
+test('`pathFilterCallback` option keeps custom lines if the callback returns false', t => {
+	const pathFilterCallback = () => true;
+
+	const pre = `Error: foo
+    at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)
+    at getHomeDirectory (/Users/sindresorhus/dev/clean-stack/home-directory.js:3:32)`;
+
+	const stack = `${pre}\n
+    at MySocket.emit (node:events:365:28)
+    at MySocket.emit (node:fs/promises:363:28)
+    at handleMessage (internal/child_process.js:695:10)
+    at Pipe.channel.onread (internal/child_process.js:440:11)
+    at process.emit (events.js:172:7)`;
+
+	t.is(cleanStack(stack, {pathFilterCallback}), pre);
 });
 
 test('new stack format on Node.js 15 and later', t => {
