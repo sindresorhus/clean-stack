@@ -75,7 +75,7 @@ Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 ##### pathFilter
 
-Type: `(string) => boolean`
+Type: `(path: string) => boolean`
 
 Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
 
