@@ -73,13 +73,11 @@ Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
-##### pathFilterCallback
+##### pathFilter
 
 Type: `(string) => boolean`
 
-Remove any stack lines where their paths return false from this callback.
-
-Example with `path => /omit-me/.test(path)` as `pathFilterCallback`:
+Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
 
 ```js
 import cleanStack from 'clean-stack';
