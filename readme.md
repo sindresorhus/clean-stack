@@ -89,7 +89,7 @@ console.log(cleanStack(error.stack));
 //     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
 //     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/omit-me.js:1:16)
 
-const pathFilter = path => /omit-me/.test(path);
+const pathFilter = path => !/omit-me/.test(path);
 
 console.log(cleanStack(error.stack, {pathFilter}));
 // Error: Missing unicorn
