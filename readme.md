@@ -73,6 +73,29 @@ Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 
+##### pathFilter
+
+Type: `(path: string) => boolean`
+
+Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
+
+```js
+import cleanStack from 'clean-stack';
+
+const error = new Error('Missing unicorn');
+
+console.log(cleanStack(error.stack));
+// Error: Missing unicorn
+//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/omit-me.js:1:16)
+
+const pathFilter = path => !/omit-me/.test(path);
+
+console.log(cleanStack(error.stack, {pathFilter}));
+// Error: Missing unicorn
+//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+```
+
 ## Related
 
 - [extract-stack](https://github.com/sindresorhus/extract-stack) - Extract the actual stack of an error

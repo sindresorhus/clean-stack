@@ -16,6 +16,29 @@ export type Options = {
 	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
 	*/
 	readonly basePath?: string;
+
+	/**
+	Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
+
+	@example
+	```
+	import cleanStack from 'clean-stack';
+
+	const error = new Error('Missing unicorn');
+
+	console.log(cleanStack(error.stack));
+	// Error: Missing unicorn
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/omit-me.js:1:16)
+
+	const pathFilter = path => !/omit-me/.test(path);
+
+	console.log(cleanStack(error.stack, {pathFilter}));
+	// Error: Missing unicorn
+	//     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15)
+	```
+	*/
+	readonly pathFilter?: (path: string) => boolean;
 };
 
 /**
