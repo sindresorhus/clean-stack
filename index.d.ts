@@ -20,6 +20,7 @@ export type Options = {
 	/**
 	Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
 
+	@example
 	```
 	import cleanStack from 'clean-stack';
 
