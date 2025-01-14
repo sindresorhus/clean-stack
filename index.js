@@ -2,7 +2,7 @@ import escapeStringRegexp from 'escape-string-regexp';
 import getHomeDirectory from '#home-directory';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
-const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
+const pathRegex = /^(?:(?:node|node:[\w\/]+|(?:(?:node:)?internal\/[\w\/]*|ext:cli\/|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+|native)/;
 
 export default function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');

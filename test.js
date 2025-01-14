@@ -270,6 +270,18 @@ test('new stack format on Node.js 15 and later', t => {
 	t.is(cleanStack(stack), expected);
 });
 
+test('Deno.test() stack', t => {
+	const expected = `Error: message
+    at /dandv/deno-clean-stack.test.ts:4:13`;
+
+	const stack = `${expected}
+    at innerWrapped (ext:cli/40_test.js:191:11)
+    at exitSanitizer (ext:cli/40_test.js:107:33)
+    at outerWrapped (ext:cli/40_test.js:134:20)`;
+	console.log(stack);
+	t.is(cleanStack(stack), expected);
+});
+
 test('at async', t => {
 	const basePath = '/base';
 	const stack = `Error: test
