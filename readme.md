@@ -59,7 +59,7 @@ Type: `object`
 Type: `boolean`\
 Default: `false`
 
-Prettify the file paths in the stack:
+If truthy, prettify the file paths in the stack by replacing the home directory with `~`:
 
 `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 
