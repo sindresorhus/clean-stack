@@ -272,13 +272,43 @@ test('new stack format on Node.js 15 and later', t => {
 
 test('Deno.test() stack', t => {
 	const expected = `Error: message
-    at /dandv/deno-clean-stack.test.ts:4:13`;
+    at /home/dandv/deno-clean-stack.test.ts:4:13`;
 
 	const stack = `${expected}
     at innerWrapped (ext:cli/40_test.js:191:11)
     at exitSanitizer (ext:cli/40_test.js:107:33)
     at outerWrapped (ext:cli/40_test.js:134:20)`;
-	console.log(stack);
+	t.is(cleanStack(stack), expected);
+});
+
+test('Deno JSR imports via BDD testing stack from https://github.com/denoland/deno/issues/24002#issuecomment-2561927997', t => {
+	const stack = `error: AssertionError
+    throw new AssertionError(msg);
+          ^
+    at assert (https://jsr.io/@std/assert/1.0.10/assert.ts:21:11)
+    at Object.<anonymous> (/home/dandv/THIS/IS/MY/CODE/THAT/I/CARE/ABOUT/foo.test.ts:372:28)
+    at eventLoopTick (ext:core/01_core.js:175:7)
+    at async Function.runTest (https://jsr.io/@std/testing/1.0.8/_test_suite.ts:428:7)
+    at async Function.runTest (https://jsr.io/@std/testing/1.0.8/_test_suite.ts:416:9)
+    at async fn (https://jsr.io/@std/testing/1.0.8/_test_suite.ts:377:13)`;
+
+	const expected = `error: AssertionError
+    throw new AssertionError(msg);
+          ^
+    at Object.<anonymous> (/home/dandv/THIS/IS/MY/CODE/THAT/I/CARE/ABOUT/foo.test.ts:372:28)`;
+
+	t.is(cleanStack(stack), expected);
+});
+
+test('Deno stack from https://github.com/denoland/deno/issues/27553#issuecomment-2590573359', t => {
+	const expected = `Error: message
+    at /home/dandv/deno-clean-stack.test.ts:4:13`;
+
+	const stack = `${expected}
+    at Object.runMicrotasks (ext:core/01_core.js:683:26)
+    at processTicksAndRejections (ext:deno_node/_next_tick.ts:59:10)
+    at runNextTicks (ext:deno_node/_next_tick.ts:76:3)
+    at eventLoopTick (ext:core/01_core.js:182:21)`;
 	t.is(cleanStack(stack), expected);
 });
 
