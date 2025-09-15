@@ -311,3 +311,26 @@ test('exports for home-directory files match', t => {
 	t.is(typeof getHomeDirectoryNode, 'function');
 	t.is(typeof getHomeDirectoryBrowser, 'function');
 });
+
+test('`pretty` option converts file:// URLs to regular paths', t => {
+	const stack = `Error: foo
+    at Test.fn (file:///Users/user/dev/project/test.js:6:15)
+    at handleMessage (internal/child_process.js:695:10)`;
+
+	const result = cleanStack(stack, {pretty: true});
+
+	// file:// URLs should be converted to regular paths
+	t.false(result.includes('file://'));
+	t.true(result.includes('/Users/user/dev/project/test.js:6:15'));
+});
+
+test('`pretty` option converts file:// URLs and replaces home directory', t => {
+	const stack = `Error: foo
+    at Test.fn (file://${os.homedir()}/dev/project/test.js:6:15)
+    at handleMessage (internal/child_process.js:695:10)`;
+
+	const expected = `Error: foo
+    at Test.fn (~/dev/project/test.js:6:15)`;
+
+	t.is(cleanStack(stack, {pretty: true}), expected);
+});

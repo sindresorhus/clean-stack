@@ -1,3 +1,4 @@
+import {fileURLToPath} from 'node:url';
 import escapeStringRegexp from 'escape-string-regexp';
 import getHomeDirectory from '#home-directory';
 
@@ -43,7 +44,19 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 			}
 
 			if (pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => m.replace(p1, p1.replace(homeDirectory, '~')));
+				line = line.replace(extractPathRegex, (m, p1) => {
+					let filePath = p1;
+
+					// Convert file:// URLs to regular paths first
+					if (filePath.startsWith('file://')) {
+						filePath = fileURLToPath(filePath);
+					}
+
+					// Then replace home directory with ~
+					filePath = filePath.replace(homeDirectory, '~');
+
+					return m.replace(p1, filePath);
+				});
 			}
 
 			return line;

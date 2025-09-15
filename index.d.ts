@@ -2,7 +2,10 @@ export type Options = {
 	/**
 	Prettify the file paths in the stack:
 
-	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
+	- `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
+	- `file:///Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
+
+	When enabled, file URLs are converted to regular paths for better readability and IDE integration.
 
 	@default false
 	*/
