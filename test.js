@@ -31,15 +31,15 @@ test('default #2', t => {
 
 test('directly executed node script', t => {
 	const pre = `Error: foo
-    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
+    at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)
+    at node.js:968:3`;
 	const stack = `${pre}\n
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
     at Module.load (module.js:343:32)
     at Function.Module._load (module.js:300:12)
     at Function.Module.runMain (module.js:441:10)
-    at startup (node.js:139:18)
-    at node.js:968:3`;
+    at startup (node.js:139:18)`;
 	t.is(cleanStack(stack), pre);
 });
 
@@ -168,6 +168,8 @@ test('`basePath` option', t => {
     at Object.<anonymous> (node_modules/foo/bar.js:1:14)
     at node_modules/foo/baz.js:1:14`;
 	t.is(cleanStack(stack, {basePath}), expected);
+	t.is(cleanStack(cleanStack(stack, {basePath})), expected);
+	t.is(cleanStack(cleanStack(stack, {basePath}), {basePath}), expected);
 });
 
 test('`basePath` option should have precedence over `pretty` option', t => {

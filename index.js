@@ -4,6 +4,7 @@ import getHomeDirectory from '#home-directory';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
+const simplePathRegex = /^\w+\.js:\d+:\d+$/;
 
 export default function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
@@ -31,6 +32,10 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 				|| match.includes('node_modules/electron/dist/resources/default_app.asar')
 			) {
 				return false;
+			}
+
+			if (simplePathRegex.test(match)) {
+				return true;
 			}
 
 			return pathFilter
