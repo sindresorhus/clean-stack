@@ -11,27 +11,20 @@
 		"url": "https://sindresorhus.com"
 	},
 	"type": "module",
-	"exports": "./index.js",
-	"imports": {
-		"#home-directory": {
-			"node": "./home-directory.js",
-			"default": "./home-directory-browser.js"
-		}
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
 	},
-	"types": "./index.d.ts",
 	"sideEffects": false,
 	"engines": {
-		"node": ">=14.16"
+		"node": ">=20"
 	},
 	"scripts": {
-		"//test": "xo && ava && tsd",
-		"test": "ava && tsd"
+		"test": "xo && ava"
 	},
 	"files": [
 		"index.js",
-		"index.d.ts",
-		"home-directory.js",
-		"home-directory-browser.js"
+		"index.d.ts"
 	],
 	"keywords": [
 		"clean",
@@ -42,14 +35,16 @@
 		"electron"
 	],
 	"dependencies": {
-		"escape-string-regexp": "5.0.0"
+		"escape-string-regexp": "5.0.0",
+		"url-extras": "^0.1.0"
 	},
 	"devDependencies": {
-		"ava": "^4.3.3",
-		"tsd": "^0.24.1",
-		"xo": "^0.52.3"
+		"ava": "^6.4.1",
+		"xo": "^0.56.0"
 	},
-	"browser": {
-		"os": false
+	"xo": {
+		"rules": {
+			"n/prefer-global/process": "off"
+		}
 	}
 }

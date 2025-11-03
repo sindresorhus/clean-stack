@@ -1,30 +1,34 @@
-import {fileURLToPath} from 'node:url';
 import escapeStringRegexp from 'escape-string-regexp';
-import getHomeDirectory from '#home-directory';
+import {fileURLToPath} from 'url-extras';
 
 const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
 const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
 const simplePathRegex = /^\w+\.js:\d+:\d+$/;
 
 export default function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
-	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replace(/\\/g, '/'))}/?`, 'g');
-	const homeDirectory = pretty ? getHomeDirectory() : '';
-
 	if (typeof stack !== 'string') {
 		return undefined;
 	}
 
-	return stack.replace(/\\/g, '/')
+	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replaceAll('\\', '/'))}/?`, 'g');
+
+	let homeDirectory = '';
+	if (pretty) {
+		const os = process.getBuiltinModule?.('node:os');
+		homeDirectory = os ? os.homedir().replaceAll('\\', '/') : '';
+	}
+
+	return stack.replaceAll('\\', '/')
 		.split('\n')
 		.filter(line => {
 			const pathMatches = line.match(extractPathRegex);
-			if (pathMatches === null || !pathMatches[1]) {
-				return true;
+			if (!pathMatches?.[1]) {
+				return true; // Keep lines without paths (like error messages)
 			}
 
 			const match = pathMatches[1];
 
-			// Electron
+			// Filter out Electron internal paths
 			if (
 				match.includes('.app/Contents/Resources/electron.asar')
 				|| match.includes('.app/Contents/Resources/default_app.asar')
@@ -34,13 +38,18 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 				return false;
 			}
 
+			// Keep simple relative paths like 'foo.js:1:1'
 			if (simplePathRegex.test(match)) {
 				return true;
 			}
 
-			return pathFilter
-				? !pathRegex.test(match) && pathFilter(match)
-				: !pathRegex.test(match);
+			// Filter out internal Node.js paths
+			if (pathRegex.test(match)) {
+				return false;
+			}
+
+			// Apply user's path filter if provided
+			return pathFilter ? pathFilter(match) : true;
 		})
 		.filter(line => line.trim() !== '')
 		.map(line => {
@@ -57,8 +66,10 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 						filePath = fileURLToPath(filePath);
 					}
 
-					// Then replace home directory with ~
-					filePath = filePath.replace(homeDirectory, '~');
+					// Then replace home directory with ~ (only if homeDirectory is not empty)
+					if (homeDirectory) {
+						filePath = filePath.replace(homeDirectory, '~');
+					}
 
 					return m.replace(p1, filePath);
 				});

@@ -4,7 +4,7 @@
 
 Removes the mostly unhelpful internal Node.js entries.
 
-Also works in Electron.
+Also works in the browser and Electron.
 
 ## Install
 
