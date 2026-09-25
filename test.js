@@ -1,8 +1,9 @@
 import os from 'node:os';
-import test from 'ava';
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
 import cleanStack from './index.js';
 
-test('default', t => {
+test('default', () => {
 	const pre = `Error: foo
     at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
 	const stack = `${pre}\n
@@ -11,10 +12,10 @@ test('default', t => {
     at handleMessage (internal/child_process.js:695:10)
     at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('default #2', t => {
+test('default #2', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
@@ -24,10 +25,10 @@ test('default #2', t => {
     at Function.Module._load (module.js:300:12)
     at Function.Module.runMain (module.js:441:10)
     at startup (node.js:139:18)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('directly executed node script', t => {
+test('directly executed node script', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)
     at node.js:968:3`;
@@ -38,68 +39,74 @@ test('directly executed node script', t => {
     at Function.Module._load (module.js:300:12)
     at Function.Module.runMain (module.js:441:10)
     at startup (node.js:139:18)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('internal child_process', t => {
+test('internal child_process', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
     at internal/child_process.js:696:12`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('internal next_tick', t => {
+test('keeps an `internal/` path whose last segment ends in a slash', () => {
+	const line = '    at Object.<anonymous> (internal/a/:1:1)';
+	const stack = `Error: foo\n${line}`;
+	assert.equal(cleanStack(stack), `Error: foo\n${line}`);
+});
+
+test('internal next_tick', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at _combinedTickCallback (internal/process/next_tick.js:67:7)
     at process._tickCallback (internal/process/next_tick.js:98:9)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('internal various modules', t => {
+test('internal various modules', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at emitOne (events.js:101:20)
     at process.emit (events.js:188:7)
     at process._fatalException (bootstrap_node.js:300:26)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('babel-polyfill', t => {
+test('babel-polyfill', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at run (/Users/sindresorhus/dev/clean-stack/node_modules/babel-polyfill/node_modules/core-js/modules/es6.promise.js:87:22)
     at /Users/sindresorhus/dev/clean-stack/node_modules/babel-polyfill/node_modules/core-js/modules/es6.promise.js:100:28`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('pirates', t => {
+test('pirates', () => {
 	const pre = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/clean-stack/unicorn.js:4:7)`;
 	const stack = `${pre}\n
     at Module._compile (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:83:24)
     at Object.newLoader [as .js] (/Users/zavr/dev/clean-stack/node_modules/pirates/lib/index.js:88:7)`;
-	t.is(cleanStack(stack), pre);
+	assert.equal(cleanStack(stack), pre);
 });
 
-test('works on Windows', t => {
+test('works on Windows', () => {
 	const expected = `Error: foo
     at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
-	const stack = `Error: foo
-    at Test.fn (\\Users\\sindresorhus\\dev\\clean-stack\\test.js:6:15)
-    at handleMessage (internal\\child_process.js:695:10)
-    at Pipe.channel.onread (internal\\child_process.js:440:11)
+	const stack = String.raw`Error: foo
+    at Test.fn (\Users\sindresorhus\dev\clean-stack\test.js:6:15)
+    at handleMessage (internal\child_process.js:695:10)
+    at Pipe.channel.onread (internal\child_process.js:440:11)
     at process.emit (events.js:172:7)`;
-	t.is(cleanStack(stack), expected);
+	assert.equal(cleanStack(stack), expected);
 });
 
-test('works with Electron stack traces - dev app', t => {
+test('works with Electron stack traces - dev app', () => {
 	const expected = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/electron-unhandled/fixture-rejection.js:17:16)
     at Object.<anonymous> (/Users/sindresorhus/dev/electron-unhandled/fixture-rejection.js:19:3)`;
@@ -116,10 +123,10 @@ test('works with Electron stack traces - dev app', t => {
     at Object.<anonymous> (/Users/sindresorhus/dev/electron-unhandled/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar/main.js:325:5)
     at Object.<anonymous> (/Users/sindresorhus/dev/electron-unhandled/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar/main.js:361:3)`;
 
-	t.is(cleanStack(stack), expected);
+	assert.equal(cleanStack(stack), expected);
 });
 
-test('works with Electron stack traces - built app', t => {
+test('works with Electron stack traces - built app', () => {
 	const expected = `Error: foo
     at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:107:16)
     at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/app/dist/main/index.js:568:3)`;
@@ -136,10 +143,10 @@ test('works with Electron stack traces - built app', t => {
     at Object.<anonymous> (/Users/sindresorhus/dev/forks/kap/dist/mac/Kap.app/Contents/Resources/electron.asar/browser/init.js:173:3)
     at Module._compile (module.js:571:32)`;
 
-	t.is(cleanStack(stack), expected);
+	assert.equal(cleanStack(stack), expected);
 });
 
-test('`pretty` option', t => {
+test('`pretty` option', () => {
 	const stack = `Error: foo
     at Test.fn (${os.homedir()}/dev/clean-stack/test.js:6:15)
     at handleMessage (internal/child_process.js:695:10)
@@ -147,10 +154,10 @@ test('`pretty` option', t => {
     at process.emit (events.js:172:7)`;
 	const expected = `Error: foo
     at Test.fn (~/dev/clean-stack/test.js:6:15)`;
-	t.is(cleanStack(stack, {pretty: true}), expected);
+	assert.equal(cleanStack(stack, {pretty: true}), expected);
 });
 
-test('`basePath` option', t => {
+test('`basePath` option', () => {
 	const basePath = '/Users/foo/dev/';
 	const stack = `Error: with basePath
     at Object.<anonymous> (/Users/foo/dev/node_modules/foo/bar.js:1:14)
@@ -165,12 +172,12 @@ test('`basePath` option', t => {
 	const expected = `Error: with basePath
     at Object.<anonymous> (node_modules/foo/bar.js:1:14)
     at node_modules/foo/baz.js:1:14`;
-	t.is(cleanStack(stack, {basePath}), expected);
-	t.is(cleanStack(cleanStack(stack, {basePath})), expected);
-	t.is(cleanStack(cleanStack(stack, {basePath}), {basePath}), expected);
+	assert.equal(cleanStack(stack, {basePath}), expected);
+	assert.equal(cleanStack(cleanStack(stack, {basePath})), expected);
+	assert.equal(cleanStack(cleanStack(stack, {basePath}), {basePath}), expected);
 });
 
-test('`basePath` option should have precedence over `pretty` option', t => {
+test('`basePath` option should have precedence over `pretty` option', () => {
 	const basePath = `${os.homedir()}/dev/`;
 	const stack = `Error: with basePath
     at Object.<anonymous> (${os.homedir()}/dev/node_modules/foo/bar.js:1:14)
@@ -183,10 +190,10 @@ test('`basePath` option should have precedence over `pretty` option', t => {
 
 	const expected = `Error: with basePath
     at Object.<anonymous> (node_modules/foo/bar.js:1:14)`;
-	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
+	assert.equal(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`basePath` option should ignore trailing slash', t => {
+test('`basePath` option should ignore trailing slash', () => {
 	const basePath = `${os.homedir()}/dev`;
 	const stack = `Error: with basePath
     at Object.<anonymous> (${os.homedir()}/dev/node_modules/foo/bar.js:1:14)
@@ -199,10 +206,10 @@ test('`basePath` option should ignore trailing slash', t => {
 
 	const expected = `Error: with basePath
     at Object.<anonymous> (node_modules/foo/bar.js:1:14)`;
-	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
+	assert.equal(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`basePath` option should support file URLs', t => {
+test('`basePath` option should support file URLs', () => {
 	const basePath = '/dev';
 	const stack = `Error
     at file:///dev/node_modules/foo/bar.js:1:14
@@ -215,11 +222,13 @@ test('`basePath` option should support file URLs', t => {
 	const expected = `Error
     at node_modules/foo/bar.js:1:14
     at async Promise.all (index 0)`;
-	t.is(cleanStack(stack, {basePath, pretty: true}), expected);
+	assert.equal(cleanStack(stack, {basePath, pretty: true}), expected);
 });
 
-test('`pathFilter` option allows for excluding custom lines if the callback returns true', t => {
-	const pathFilter = path => !/home-directory/.test(path);
+test('`pathFilter` option allows for excluding custom lines if the callback returns true', () => {
+	// `pathFilter` is the name of the public option, not a boolean name
+	// eslint-disable-next-line unicorn/consistent-boolean-name
+	const pathFilter = path => !/home-directory/v.test(path);
 
 	const pre = `Error: foo
     at Test.fn (/Users/sindresorhus/dev/clean-stack/test.js:6:15)`;
@@ -232,10 +241,12 @@ test('`pathFilter` option allows for excluding custom lines if the callback retu
     at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
 
-	t.is(cleanStack(stack, {pathFilter}), pre);
+	assert.equal(cleanStack(stack, {pathFilter}), pre);
 });
 
-test('`pathFilter` option keeps custom lines if the callback returns true', t => {
+test('`pathFilter` option keeps custom lines if the callback returns true', () => {
+	// `pathFilter` is the name of the public option, not a boolean name
+	// eslint-disable-next-line unicorn/consistent-boolean-name
 	const pathFilter = () => true;
 
 	const pre = `Error: foo
@@ -249,10 +260,10 @@ test('`pathFilter` option keeps custom lines if the callback returns true', t =>
     at Pipe.channel.onread (internal/child_process.js:440:11)
     at process.emit (events.js:172:7)`;
 
-	t.is(cleanStack(stack, {pathFilter}), pre);
+	assert.equal(cleanStack(stack, {pathFilter}), pre);
 });
 
-test('new stack format on Node.js 15 and later', t => {
+test('new stack format on Node.js 15 and later', () => {
 	const stack = `Error
     at B (/home/fengkx/projects/test/stack.js:5:19)
     at A (/home/fengkx/projects/test/stack.js:7:9)
@@ -267,10 +278,10 @@ test('new stack format on Node.js 15 and later', t => {
     at B (/home/fengkx/projects/test/stack.js:5:19)
     at A (/home/fengkx/projects/test/stack.js:7:9)
     at Object.<anonymous> (/home/fengkx/projects/test/stack.js:14:1)`;
-	t.is(cleanStack(stack), expected);
+	assert.equal(cleanStack(stack), expected);
 });
 
-test('at async', t => {
+test('at async', () => {
 	const basePath = '/base';
 	const stack = `Error: test
     at /base/test.js:704:48
@@ -298,16 +309,16 @@ test('at async', t => {
     at async run (node_modules/vitest/dist/entry.js:87:7)
     at async node_modules/tinypool/dist/esm/worker.js:109:20
     at node_modules/tinypool/dist/esm/worker.js:109:20`;
-	t.is(cleanStack(stack, {basePath}), expected);
+	assert.equal(cleanStack(stack, {basePath}), expected);
 });
 
-test('handle undefined', t => {
+test('handle undefined', () => {
 	const stack = undefined;
 	const expected = undefined;
-	t.is(cleanStack(stack, {pretty: true}), expected);
+	assert.equal(cleanStack(stack, {pretty: true}), expected);
 });
 
-test('`pretty` option converts file:// URLs to regular paths', t => {
+test('`pretty` option converts file:// URLs to regular paths', () => {
 	const stack = `Error: foo
     at Test.fn (file:///Users/user/dev/project/test.js:6:15)
     at handleMessage (internal/child_process.js:695:10)`;
@@ -315,11 +326,11 @@ test('`pretty` option converts file:// URLs to regular paths', t => {
 	const result = cleanStack(stack, {pretty: true});
 
 	// file:// URLs should be converted to regular paths
-	t.false(result.includes('file://'));
-	t.true(result.includes('/Users/user/dev/project/test.js:6:15'));
+	assert.ok(!result.includes('file://'));
+	assert.ok(result.includes('/Users/user/dev/project/test.js:6:15'));
 });
 
-test('`pretty` option converts file:// URLs and replaces home directory', t => {
+test('`pretty` option converts file:// URLs and replaces home directory', () => {
 	const stack = `Error: foo
     at Test.fn (file://${os.homedir()}/dev/project/test.js:6:15)
     at handleMessage (internal/child_process.js:695:10)`;
@@ -327,5 +338,20 @@ test('`pretty` option converts file:// URLs and replaces home directory', t => {
 	const expected = `Error: foo
     at Test.fn (~/dev/project/test.js:6:15)`;
 
-	t.is(cleanStack(stack, {pretty: true}), expected);
+	assert.equal(cleanStack(stack, {pretty: true}), expected);
+});
+
+test('`pretty` option leaves `$` sequences in a path alone', () => {
+	const stack = `Error: foo
+    at Test.fn (/a/$&/b.js:6:15)
+    at Other.fn (/a/$$/b.js:1:2)
+    at Third.fn (/a/$1/b.js:3:4)
+    at handleMessage (internal/child_process.js:695:10)`;
+
+	const expected = `Error: foo
+    at Test.fn (/a/$&/b.js:6:15)
+    at Other.fn (/a/$$/b.js:1:2)
+    at Third.fn (/a/$1/b.js:3:4)`;
+
+	assert.equal(cleanStack(stack, {pretty: true}), expected);
 });

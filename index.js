@@ -1,16 +1,16 @@
 import escapeStringRegexp from 'escape-string-regexp';
 import {fileURLToPath} from 'url-extras';
 
-const extractPathRegex = /\s+at.*[(\s](.*)\)?/;
-const pathRegex = /^(?:(?:(?:node|node:[\w/]+|(?:(?:node:)?internal\/[\w/]*|.*node_modules\/(?:babel-polyfill|pirates)\/.*)?\w+)(?:\.js)?:\d+:\d+)|native)/;
-const simplePathRegex = /^\w+\.js:\d+:\d+$/;
+const extractPathRegex = /(?<=\s)at.*[\s\(](?<path>.*)/v;
+const pathRegex = /^(?:(?:node|node:[\w\/]+|(?:node:)?internal\/[\w\/]+(?<!\/)|.*node_modules\/(?:babel-polyfill|pirates)\/.*\w|\w+)(?:\.js)?:\d+:\d+|native)/v;
+const simplePathRegex = /^\w+\.js:\d+:\d+$/v;
 
 export default function cleanStack(stack, {pretty = false, basePath, pathFilter} = {}) {
 	if (typeof stack !== 'string') {
 		return undefined;
 	}
 
-	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replaceAll('\\', '/'))}/?`, 'g');
+	const basePathRegex = basePath && new RegExp(`(file://)?${escapeStringRegexp(basePath.replaceAll('\\', '/'))}/?`, 'gv');
 
 	let homeDirectory = '';
 	if (pretty) {
@@ -21,12 +21,12 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 	return stack.replaceAll('\\', '/')
 		.split('\n')
 		.filter(line => {
-			const pathMatches = line.match(extractPathRegex);
-			if (!pathMatches?.[1]) {
+			const pathMatch = line.match(extractPathRegex);
+			if (!pathMatch?.groups?.path) {
 				return true; // Keep lines without paths (like error messages)
 			}
 
-			const match = pathMatches[1];
+			const match = pathMatch.groups.path;
 
 			// Filter out Electron internal paths
 			if (
@@ -58,20 +58,21 @@ export default function cleanStack(stack, {pretty = false, basePath, pathFilter}
 			}
 
 			if (pretty) {
-				line = line.replace(extractPathRegex, (m, p1) => {
-					let filePath = p1;
+				line = line.replace(extractPathRegex, (lineMatch, filePath) => {
+					let prettifiedFilePath = filePath;
 
 					// Convert file:// URLs to regular paths first
-					if (filePath.startsWith('file://')) {
-						filePath = fileURLToPath(filePath);
+					if (prettifiedFilePath.startsWith('file://')) {
+						prettifiedFilePath = fileURLToPath(prettifiedFilePath);
 					}
 
 					// Then replace home directory with ~ (only if homeDirectory is not empty)
 					if (homeDirectory) {
-						filePath = filePath.replace(homeDirectory, '~');
+						prettifiedFilePath = prettifiedFilePath.replace(homeDirectory, '~');
 					}
 
-					return m.replace(p1, filePath);
+					// Replace literally, so a path containing `$` patterns is not mangled
+					return lineMatch.replace(filePath, () => prettifiedFilePath);
 				});
 			}
 
