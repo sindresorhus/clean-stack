@@ -5,23 +5,33 @@ export type Options = {
 	- `/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 	- `file:///Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `~/dev/clean-stack/unicorn.js:2:15`
 
-	When enabled, file URLs are converted to regular paths for better readability and IDE integration.
+	When enabled, file URLs are converted to regular paths for better readability and IDE integration. URLs that cannot be converted, contain `?` or `#`, or decode to a line break are left unchanged.
+
+	`pretty` and `basePath` only rewrite frame paths. Backslashes become `/` throughout each frame. Error message text is preserved except for blank lines; lines shaped like frames are treated as frames.
 
 	@default false
 	*/
 	readonly pretty?: boolean;
 
 	/**
-	Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones.
+	Remove the given base path from stack trace file paths, effectively turning absolute paths into relative ones. It will also transform absolute file URLs into relative paths.
 
-	Example with `'/Users/sindresorhus/dev/clean-stack/'` as `basePath`:
+	Supports absolute or relative paths, either separator, and the filesystem root. A leading slash only matches absolute paths. Relative base paths do not match inside `file:///`, except Windows drive paths such as `C:/Users`.
+
+	Example with `'/Users/sindresorhus/dev/clean-stack'` as `basePath`:
 
 	`/Users/sindresorhus/dev/clean-stack/unicorn.js:2:15` → `unicorn.js:2:15`
+
+	`basePath` matches before file URLs are decoded, so `/Users/John Doe/dev` does not match `file:///Users/John%20Doe/dev`. After a match, remaining URL escapes stay encoded, even with `pretty`.
+
+	Frames like `at fn (unicorn.js:2:15)` are removed because they resemble old internal Node.js frames. Cleaning again after `basePath` produces this form can therefore drop frames for files directly in the base path. Paths with a directory, like `at fn (src/unicorn.js:2:15)`, and bare frames like `at unicorn.js:2:15` are unaffected.
 	*/
 	readonly basePath?: string;
 
 	/**
-	Remove the stack lines where the given function returns `false`. The function receives the path part of the stack line.
+	Remove stack lines where the callback returns `false`. It receives the path without the closing parenthesis, with `/` separators, before `basePath` or `pretty` is applied. A pathless frame such as `at async Promise.all (index 0)` yields `index 0`.
+
+	Balanced parentheses in function names, such as `at render (partial) (/base/a.js:6:9)`, and paths, such as `C:/Program Files (x86)/app.js:1:1`, are supported. Unbalanced parentheses in a function name, such as `at a(b (/base/a.js:6:9)`, can cause part of the name to be included in the path.
 
 	@example
 	```
@@ -47,8 +57,8 @@ export type Options = {
 /**
 Clean up error stack traces. Removes the mostly unhelpful internal Node.js entries.
 
-@param stack - The `stack` property of an `Error`.
-@returns The cleaned stack or `undefined` if the given `stack` is `undefined`.
+@param stack - The `stack` property of an `Error`, or `undefined`.
+@returns The cleaned stack or `undefined` if the given `stack` is not a string.
 
 @example
 ```
